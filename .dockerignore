@@ -1,0 +1,4 @@
+proyecto/node_modules/
+proyecto/package-lock.json
+.git
+.cache
