@@ -10,15 +10,14 @@ services:
             - 8000:8000
         volumes:
             - ./proyecto:/opt/app
-            - nodemodules:/opt/app/node_modules
+            - node_modules:/opt/app/node_modules
     db:
         image: mongo
         ports:
             - 27018:27017
         volumes:
-            - mongodata:/data/db
+            - $PWD/mongodata:/data/db
         restart: always
 
 volumes:
-    mongodata:
-    nodemodules:
+   node_modules:

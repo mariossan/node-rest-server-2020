@@ -22,9 +22,8 @@ app.get('/', function (req, res) {
 })
 
 
-
 mongoose.connect(
-    "mongodb://db:27017/cafe",
+    process.env.URL_DB,
     { 
         useUnifiedTopology: true, 
         useNewUrlParser: true, 

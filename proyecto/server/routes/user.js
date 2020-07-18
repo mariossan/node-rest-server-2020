@@ -12,7 +12,7 @@ app.get('/user', function (req, res) {
 
     take        = Number( take )
     page        = Number( ( page - 1 ) * take )
-    filtro      = {}
+    filtro      = {estado: true}
 
     User.find(filtro)
         .skip(page)
@@ -97,7 +97,8 @@ app.delete('/user/:id', function (req, res) {
     let id      = req.params.id
 
     // ahora se hace la eliminacion
-    User.findByIdAndDelete(id, (err, usuarioBorrado) => {
+    //User.findByIdAndDelete(id, (err, usuarioBorrado) => {
+    User.findByIdAndUpdate(id, {estado: false},{ new: true, runValidators: true }, (err, usuarioBorrado) => {
         if (err) {
             return res.status(400).json({
                 status: false,
@@ -108,7 +109,7 @@ app.delete('/user/:id', function (req, res) {
         if ( usuarioBorrado === null ) {
             res.send({
                 ok: false,
-                error: {
+                err: {
                     message: 'Usuario no encontrado'
                 }
             })
