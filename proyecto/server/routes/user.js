@@ -1,10 +1,11 @@
-const express   = require('express')
-const bcrypt    = require('bcrypt')
-const _         = require('underscore')
-const User      = require('../models/user')
-const app       = express()
+const express           = require('express')
+const bcrypt            = require('bcrypt')
+const _                 = require('underscore')
+const User              = require('../models/user')
+const { verificaToken, verificaAdminRole } = require('../middlewares/authentication')
+const app               = express()
 
-app.get('/user', function (req, res) {
+app.get('/user', verificaToken, (req, res) => {
 
     let page    = req.query.page  || 1
     let take    = req.query.take  || 5
@@ -40,7 +41,7 @@ app.get('/user', function (req, res) {
 /**
  * Metodo para insertar un nuevo usuario
  */
-app.post('/user', async function (req, res) {
+app.post('/user', [verificaToken, verificaAdminRole], async function (req, res) {
     let body = req.body
 
     let user = new User({
@@ -70,7 +71,7 @@ app.post('/user', async function (req, res) {
 /**
  * Método para hacer la actualzacion de un campo
  */
-app.put('/user/:id', function (req, res) {
+app.put('/user/:id', [verificaToken, verificaAdminRole], function (req, res) {
     let id      = req.params.id
     let body    = _.pick( req.body, ['nombre', 'email', 'img', 'role', 'estado'] )
     
@@ -93,7 +94,7 @@ app.put('/user/:id', function (req, res) {
 /**
  * Metodo para eliminar usuarios
  */
-app.delete('/user/:id', function (req, res) {
+app.delete('/user/:id', [verificaToken, verificaAdminRole], function (req, res) {
     let id      = req.params.id
 
     // ahora se hace la eliminacion

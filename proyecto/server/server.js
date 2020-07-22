@@ -9,12 +9,11 @@ const port          = process.env.PORT
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
-
 // parse application/json
 app.use(bodyParser.json())
 
 // Import user route
-app.use( require('./routes/user') )
+app.use( require('./routes') )
 
 
 app.get('/', function (req, res) {
